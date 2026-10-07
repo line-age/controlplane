@@ -336,7 +336,7 @@
       <div class="members" id="members" aria-live="polite">
         <p class="members-empty">Loading members from GitHub...</p>
       </div>
-      <p class="members-note">Public members of the <a href="https://github.com/orgs/line-age/people">line-age</a> organization. Membership is private on GitHub by default; members can make theirs public from the organization's People page.</p>
+      <p class="members-note">Public members of the <a href="https://github.com/line-age">line-age</a> organization, the same list for every visitor. Membership is private on GitHub by default. Not listed? Make yours public on the <a href="https://github.com/orgs/line-age/people">organization's People page</a>.</p>
     </div>
   </section>
 </main>
@@ -361,7 +361,10 @@
     box.innerHTML = '';
     box.appendChild(el('p', 'members-empty', msg));
   }
-  fetch('https://api.github.com/orgs/line-age/public_members?per_page=100')
+  // Anonymous on purpose: never send the visitor's credentials, so everyone sees the
+  // same public list. Revalidate rather than reuse a stale cached copy.
+  var opts = { credentials: 'omit', cache: 'no-cache' };
+  fetch('https://api.github.com/orgs/line-age/public_members?per_page=100', opts)
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(function (members) {
       if (!members.length) { show('No public members yet.'); return; }
@@ -379,7 +382,7 @@
         a.appendChild(img); a.appendChild(name); a.appendChild(login);
         box.appendChild(a);
         // Display names cost one API call each; fill them in when available.
-        fetch(m.url).then(function (r) { return r.ok ? r.json() : null; })
+        fetch(m.url, opts).then(function (r) { return r.ok ? r.json() : null; })
           .then(function (u) { if (u && u.name) name.textContent = u.name; })
           .catch(function () {});
       });
