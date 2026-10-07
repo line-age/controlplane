@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lineage</title>
+<meta name="description" content="Lineage reconstructs the history of physical networks as temporal GIS data, with a citation behind every fact.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+  :root {
+    --paper: #F4EFE3;
+    --paper-2: #E9E2D0;
+    --card: #FBF8F1;
+    --rule: #D9CFBA;
+    --ink: #1E2A3A;
+    --body: #4A5262;
+    --muted: #7D7A70;
+    --rust: #A8432A;
+    --rust-soft: #F6E3DA;
+    --teal: #2C6873;
+    --on-rust: #FBF8F1;
+    --core-bg: #1E2A3A;
+    --core-fg: #F4EFE3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #141C27;
+      --paper-2: #1A2433;
+      --card: #1E2A3A;
+      --rule: #2F3E52;
+      --ink: #F1ECE0;
+      --body: #C3CCD6;
+      --muted: #8E9AA8;
+      --rust: #E0805F;
+      --rust-soft: #3A2620;
+      --teal: #6FB3BE;
+      --on-rust: #141C27;
+      --core-bg: #2C6873;
+      --core-fg: #F1ECE0;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #141C27; --paper-2: #1A2433; --card: #1E2A3A; --rule: #2F3E52; --ink: #F1ECE0;
+    --body: #C3CCD6; --muted: #8E9AA8; --rust: #E0805F; --rust-soft: #3A2620; --teal: #6FB3BE; --on-rust: #141C27;
+    --core-bg: #2C6873; --core-fg: #F1ECE0;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--body);
+    font: 400 18px/1.6 'Public Sans', system-ui, sans-serif;
+  }
+  a { color: var(--rust); text-underline-offset: 3px; }
+  a:hover { text-decoration-thickness: 2px; }
+  code, .mono { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.9em; }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  @media (max-width: 600px) { .wrap { padding: 0 16px; } }
+
+  h1, h2, h3 { color: var(--ink); margin: 0; }
+  h2 { font: 500 clamp(28px, 4vw, 40px)/1.15 'Fraunces', Georgia, serif; }
+  h3 { font: 700 20px/1.3 'Public Sans', system-ui, sans-serif; }
+  .eyebrow {
+    font: 600 13px/1 'Public Sans', system-ui, sans-serif;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--rust);
+    margin: 0 0 12px;
+  }
+
+  /* Hero */
+  header.hero { background: var(--ink); color: var(--paper); padding: 88px 0 72px; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) header.hero { background: #0E141D; } }
+  :root[data-theme="dark"] header.hero { background: #0E141D; }
+  .hero .eyebrow { color: #E08A6A; }
+  .hero h1 {
+    font: 500 clamp(64px, 12vw, 132px)/0.95 'Fraunces', Georgia, serif;
+    color: #F4EFE3; letter-spacing: -0.01em;
+  }
+  .hero .lede {
+    font: italic 400 clamp(22px, 3vw, 30px)/1.35 'Fraunces', Georgia, serif;
+    color: #C9D3DC; max-width: 760px; margin: 24px 0 0;
+  }
+  .hero .rule { width: 120px; height: 4px; background: #A8432A; margin: 32px 0 24px; }
+  .hero .meta { color: #9FB0C0; font-size: 16px; margin: 0; }
+  .hero .meta a { color: #E8A68C; }
+
+  section.band { padding: 72px 0; }
+  section.band.alt { background: var(--paper-2); }
+  .intro { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: start; }
+  @media (max-width: 820px) { .intro { grid-template-columns: 1fr; gap: 32px; } }
+  .intro p { margin: 16px 0 0; font-size: 19px; }
+  .reqs { list-style: none; padding: 0; margin: 0; counter-reset: req; }
+  .reqs li {
+    counter-increment: req; position: relative; padding: 14px 0 14px 48px;
+    border-top: 1px solid var(--rule); color: var(--ink);
+  }
+  .reqs li:last-child { border-bottom: 1px solid var(--rule); }
+  .reqs li::before {
+    content: counter(req); position: absolute; left: 0; top: 8px;
+    font: 600 28px/1 'Fraunces', Georgia, serif; color: var(--rust);
+  }
+  .reqs .sub { display: block; color: var(--body); font-size: 15px; }
+
+  /* Flow */
+  .flow { display: grid; grid-template-columns: 1fr auto 1.2fr auto 1fr auto 1fr; gap: 12px; align-items: center; margin-top: 36px; }
+  .flow .col { display: flex; flex-direction: column; gap: 10px; }
+  .flow .label { font: 600 12px/1 'Public Sans', sans-serif; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+  .chip { padding: 10px 14px; border-radius: 10px; background: var(--card); border: 1px solid var(--rule); color: var(--ink); font-size: 16px; }
+  .chip.src { background: var(--paper-2); border-color: transparent; }
+  .chip.hot { background: var(--rust); border-color: var(--rust); color: var(--on-rust); font-weight: 600; }
+  .chip.core { background: var(--core-bg); color: var(--core-fg); border-color: var(--core-bg); text-align: center; padding: 28px 14px; font-weight: 600; }
+  .chip.core small { display: block; font-weight: 400; opacity: 0.8; }
+  .arrow { color: var(--muted); font-size: 24px; }
+  @media (max-width: 820px) {
+    .flow { grid-template-columns: 1fr; }
+    .arrow { transform: rotate(90deg); justify-self: center; }
+  }
+  .flow-note { margin: 28px 0 0; max-width: 760px; }
+
+  /* Components */
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 36px; }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+  .comp {
+    background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 22px 24px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .comp.priority { border: 2px solid var(--rust); }
+  .comp header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .comp h3 a { color: var(--ink); text-decoration: none; }
+  .comp h3 a:hover { color: var(--rust); }
+  .tag { font: 600 12px/1 'Public Sans', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 10px; border-radius: 999px; white-space: nowrap; }
+  .tag.now { background: var(--rust); color: var(--on-rust); }
+  .tag.start { border: 1px solid var(--teal); color: var(--teal); }
+  .tag.later { border: 1px dashed var(--muted); color: var(--muted); }
+  .comp p { margin: 0; }
+  .io { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 16px; margin: 4px 0 0; }
+  .io dt { font: 600 12px/1.9 'Public Sans', sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .io dd { margin: 0; color: var(--ink); }
+
+  /* Rules + roadmap */
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  @media (max-width: 820px) { .two { grid-template-columns: 1fr; gap: 40px; } }
+  .rules { list-style: none; padding: 0; margin: 24px 0 0; }
+  .rules li { padding: 14px 0; border-top: 1px solid var(--rule); }
+  .rules li:last-child { border-bottom: 1px solid var(--rule); }
+  .rules b { color: var(--ink); }
+  .quarters { display: flex; flex-direction: column; gap: 14px; margin-top: 24px; }
+  .q { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 18px 20px; }
+  .q h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 22px; }
+  .q p { margin: 6px 0 0; font-size: 16px; }
+
+  /* Members */
+  .members { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; margin-top: 32px; }
+  .member {
+    display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;
+    padding: 20px 12px; background: var(--card); border: 1px solid var(--rule); border-radius: 12px;
+    text-decoration: none; color: var(--ink);
+  }
+  .member:hover { border-color: var(--rust); }
+  .member img { width: 72px; height: 72px; border-radius: 50%; background: var(--paper-2); }
+  .member .name { font-weight: 600; font-size: 16px; line-height: 1.3; }
+  .member .login { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--muted); }
+  .members-note { margin: 20px 0 0; font-size: 15px; color: var(--muted); }
+  .members-empty { grid-column: 1 / -1; color: var(--muted); }
+
+  footer { padding: 40px 0 56px; border-top: 1px solid var(--rule); font-size: 15px; color: var(--muted); }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">An open-source research project</p>
+    <h1>Lineage</h1>
+    <p class="lede">The history of America's networks, line by line, with the page that proves it.</p>
+    <div class="rule"></div>
+    <p class="meta">Code on GitHub at <a href="https://github.com/line-age">github.com/line-age</a> · Built by <a href="https://www.tightlinesoftware.com">Tight Line Software</a> with a university research group</p>
+  </div>
+</header>
+
+<main>
+  <section class="band">
+    <div class="wrap intro">
+      <div>
+        <p class="eyebrow">What it is</p>
+        <h2>Nobody knows when most of these lines were built</h2>
+        <p>Gas and oil pipelines, electric transmission, water mains and roads: the record of when they were built, who owned them and when they went out of service is scattered across scanned maps in archives and a century of trade journals that reported every new line, in vocabulary nobody uses any more.</p>
+        <p>Lineage recovers that record as a network you can open in QGIS. Every fact about a line is a claim, and every claim carries a citation to the page that says so.</p>
+        <p>The name is a pun (line + age). It is also the GIS term for the record of a dataset's sources and processing, which is the whole idea.</p>
+      </div>
+      <div>
+        <p class="eyebrow">What it has to do</p>
+        <ol class="reqs">
+          <li>Usable in QGIS and field-standard tools<span class="sub">no conversion, no plugins</span></li>
+          <li>Temporal, with imprecise dates<span class="sub">"sometime before 1930" is a real value</span></li>
+          <li>Citations, optionally with confidence<span class="sub">no citation, no machine-generated claim</span></li>
+          <li>Trackable evolution<span class="sub">who changed what, when, and on what evidence</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="band alt">
+    <div class="wrap">
+      <p class="eyebrow">How it fits together</p>
+      <h2>Eight components, one database in the middle</h2>
+      <div class="flow" aria-label="Sources feed producers, which write to store; review and release read from store">
+        <div class="col">
+          <span class="label">Sources</span>
+          <span class="chip src">Scanned maps</span>
+          <span class="chip src">Trade press, 1859-1961</span>
+          <span class="chip src">Existing spreadsheets</span>
+        </div>
+        <span class="arrow" aria-hidden="true">→</span>
+        <div class="col">
+          <span class="label">Producers</span>
+          <span class="chip">georef → trace</span>
+          <span class="chip hot">corpus → cite</span>
+          <span class="chip">backport</span>
+        </div>
+        <span class="arrow" aria-hidden="true">→</span>
+        <div class="col">
+          <span class="label">Holds it</span>
+          <span class="chip core">store<small>network + evidence</small></span>
+        </div>
+        <span class="arrow" aria-hidden="true">→</span>
+        <div class="col">
+          <span class="label">Consumers</span>
+          <span class="chip">review<br><small>people check it</small></span>
+          <span class="chip">release<br><small>QGIS gets it</small></span>
+        </div>
+      </div>
+      <p class="flow-note">There is no master pipeline. Each component reads records in one state and writes the next, and a human review is just a state change. Citation generation is the first priority; everything else can start in parallel.</p>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <p class="eyebrow">Components</p>
+      <h2>One repository each</h2>
+      <div class="grid">
+        <article class="comp priority">
+          <header><h3><a href="https://github.com/line-age/cite">cite</a></h3><span class="tag now">Priority · now</span></header>
+          <p>Finds the page that proves it. Retrieval and assertion happen per attribute, and every citation resolves at the moment the claim is made.</p>
+          <dl class="io"><dt>In</dt><dd>A segment and whatever is known about it</dd><dt>Out</dt><dd>Citations to specific issues and pages, one per claim</dd></dl>
+        </article>
+        <article class="comp priority">
+          <header><h3><a href="https://github.com/line-age/corpus">corpus</a></h3><span class="tag now">Feeds cite · now</span></header>
+          <p>Trade-press ingest from Internet Archive and an authority-ranked search over it, with era-keyed vocabulary: "gas works" in 1887, "pipe line" in 1937.</p>
+          <dl class="io"><dt>In</dt><dd>Digitized journal runs</dd><dt>Out</dt><dd>Ranked passages with identifiers that resolve</dd></dl>
+        </article>
+        <article class="comp">
+          <header><h3><a href="https://github.com/line-age/store">store</a></h3><span class="tag start">Now</span></header>
+          <p>The network and evidence model, PostGIS, and an audited CRUD API. One model for roads, power, oil, gas and water: segments, junctions, direction and flow.</p>
+          <dl class="io"><dt>In</dt><dd>Writes from every producer and from review</dd><dt>Out</dt><dd>An API, and PostGIS that QGIS opens directly</dd></dl>
+        </article>
+        <article class="comp">
+          <header><h3><a href="https://github.com/line-age/georef">georef</a></h3><span class="tag start">Now</span></header>
+          <p>IIIF image serving, a self-hosted Allmaps editor, and the annotation server it needs. The editor doubles as the georeferencing review tool.</p>
+          <dl class="io"><dt>In</dt><dd>Scanned map images</dd><dt>Out</dt><dd>A georeference annotation with a permalink</dd></dl>
+        </article>
+        <article class="comp">
+          <header><h3><a href="https://github.com/line-age/trace">trace</a></h3><span class="tag start">Research · now</span></header>
+          <p>Finding the lines on a georeferenced map, and not the county boundaries and railroads that look just like them. Conservative by design.</p>
+          <dl class="io"><dt>In</dt><dd>A georeferenced map and its symbology</dd><dt>Out</dt><dd>Candidate segments, unreviewed</dd></dl>
+        </article>
+        <article class="comp">
+          <header><h3><a href="https://github.com/line-age/backport">backport</a></h3><span class="tag start">Now</span></header>
+          <p>Existing hand-made spreadsheets and traces, brought into the model, mess and all. The earliest real test of the data model.</p>
+          <dl class="io"><dt>In</dt><dd>Spreadsheets and traces</dd><dt>Out</dt><dd>Structured records in store</dd></dl>
+        </article>
+        <article class="comp">
+          <header><h3><a href="https://github.com/line-age/review">review</a></h3><span class="tag later">Winter</span></header>
+          <p>An authenticated app where people accept, correct or reject machine output. No machine-generated claim reaches a release without passing through it.</p>
+          <dl class="io"><dt>In</dt><dd>Candidate traces and machine citations</dd><dt>Out</dt><dd>Verdicts, with the reviewer in the audit trail</dd></dl>
+        </article>
+        <article class="comp">
+          <header><h3><a href="https://github.com/line-age/release">release</a></h3><span class="tag later">Winter</span></header>
+          <p>Versioned, citable builds of the dataset that play as a timeline in QGIS straight out of the box.</p>
+          <dl class="io"><dt>In</dt><dd>store</dd><dt>Out</dt><dd>GeoPackage and GeoJSON</dd></dl>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band alt">
+    <div class="wrap two">
+      <div>
+        <p class="eyebrow">House rules</p>
+        <h2>What keeps it credible</h2>
+        <ul class="rules">
+          <li><b>No citation, no claim.</b> Every identifier resolves when the claim is made, or the claim is thrown away.</li>
+          <li><b>Absent stays absent.</b> A field nobody has a source for stays empty.</li>
+          <li><b>A 1930 map proves "by 1930".</b> Not "built in 1930". Enforced in code.</li>
+          <li><b>The model proposes; a person decides.</b> Especially whether two lines are the same one.</li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow">Roadmap</p>
+        <h2>Three quarters</h2>
+        <div class="quarters">
+          <div class="q"><h3>Fall 2026</h3><p>Citations first, file in and file out. The corpus, the data model and API, georeferencing infrastructure, backporting and first vision experiments, all in parallel.</p></div>
+          <div class="q"><h3>Winter 2027</h3><p>Review for traces and citations, the full backport, and the first release that opens in QGIS.</p></div>
+          <div class="q"><h3>Spring 2027</h3><p>More network types, a go or no-go on automated tracing, and open-source cleanup.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <p class="eyebrow">Members</p>
+      <h2>Who's building it</h2>
+      <div class="members" id="members" aria-live="polite">
+        <p class="members-empty">Loading members from GitHub...</p>
+      </div>
+      <p class="members-note">Public members of the <a href="https://github.com/orgs/line-age/people">line-age</a> organization. Membership is private on GitHub by default; members can make theirs public from the organization's People page.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Lineage · code under the MIT License</span>
+    <span>Plans, decisions and open questions: <a href="https://github.com/line-age/controlplane">line-age/controlplane</a></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var box = document.getElementById('members');
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text) e.textContent = text;
+    return e;
+  }
+  function show(msg) {
+    box.innerHTML = '';
+    box.appendChild(el('p', 'members-empty', msg));
+  }
+  fetch('https://api.github.com/orgs/line-age/public_members?per_page=100')
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (members) {
+      if (!members.length) { show('No public members yet.'); return; }
+      box.innerHTML = '';
+      members.sort(function (a, b) { return a.login.localeCompare(b.login); });
+      members.forEach(function (m) {
+        var a = el('a', 'member');
+        a.href = m.html_url;
+        var img = el('img');
+        img.src = m.avatar_url + '&s=144';
+        img.alt = '';
+        img.loading = 'lazy';
+        var name = el('span', 'name', m.login);
+        var login = el('span', 'login', '@' + m.login);
+        a.appendChild(img); a.appendChild(name); a.appendChild(login);
+        box.appendChild(a);
+        // Display names cost one API call each; fill them in when available.
+        fetch(m.url).then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (u) { if (u && u.name) name.textContent = u.name; })
+          .catch(function () {});
+      });
+    })
+    .catch(function () {
+      show('Could not load members right now. See them on GitHub.');
+    });
+})();
+</script>
+</body>
+</html>
