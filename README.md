@@ -7,7 +7,7 @@ Every fact about a line carries a citation to the source that says so.
 The name is a pun (line + age) that also happens to be the GIS term for a dataset's
 provenance, which is the whole idea.
 
-Overview site: <https://line-age.github.io/controlplane/>
+Overview site: <https://lineage.tightlinesoftware.com>
 
 It grew out of [Legend](https://github.com/Tight-Line/legend), a spike run with a
 university research group. Their interest is a timeline of US energy distribution as an
