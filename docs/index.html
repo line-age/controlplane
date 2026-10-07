@@ -77,7 +77,7 @@
   :root[data-theme="dark"] header.hero { background: #0E141D; }
   .hero .eyebrow { color: #E08A6A; }
   .hero h1 {
-    font: 500 clamp(64px, 12vw, 132px)/0.95 'Fraunces', Georgia, serif;
+    font: 500 clamp(64px, 10vw, 120px)/0.95 'Fraunces', Georgia, serif;
     color: #F4EFE3; letter-spacing: -0.01em;
   }
   .hero .lede {
@@ -87,12 +87,23 @@
   .hero .rule { width: 120px; height: 4px; background: #A8432A; margin: 32px 0 24px; }
   .hero .meta { color: #9FB0C0; font-size: 16px; margin: 0; }
   .hero .meta a { color: #E8A68C; }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 56px; align-items: center; }
+  .hero-map { margin: 0; }
+  .hero-map img {
+    display: block; width: 100%; height: auto; border-radius: 6px;
+    box-shadow: 0 18px 48px rgba(0,0,0,0.45);
+  }
+  .hero-map figcaption { margin-top: 12px; font-size: 13px; line-height: 1.5; color: #8798AA; }
+  .hero-map figcaption a { color: #B9C6D3; }
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
 
   section.band { padding: 72px 0; }
   section.band.alt { background: var(--paper-2); }
   .intro { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: start; }
   @media (max-width: 820px) { .intro { grid-template-columns: 1fr; gap: 32px; } }
-  .intro p { margin: 16px 0 0; font-size: 19px; }
+  .intro p:not(.eyebrow) { margin: 16px 0 0; font-size: 19px; }
   .reqs { list-style: none; padding: 0; margin: 0; counter-reset: req; }
   .reqs li {
     counter-increment: req; position: relative; padding: 14px 0 14px 48px;
@@ -174,12 +185,18 @@
 <body>
 
 <header class="hero">
-  <div class="wrap">
+  <div class="wrap hero-grid">
+    <div>
     <p class="eyebrow">An open-source research project</p>
     <h1>Lineage</h1>
-    <p class="lede">The history of America's networks, line by line, with the page that proves it.</p>
+    <p class="lede">The history of America's infrastructure networks, line by line, with the historical citations to prove it.</p>
     <div class="rule"></div>
     <p class="meta">Code on GitHub at <a href="https://github.com/line-age">github.com/line-age</a> · Built by <a href="https://www.tightlinesoftware.com">Tight Line Software</a> with a university research group</p>
+    </div>
+    <figure class="hero-map">
+      <img src="img/oil-trunk-pipe-lines.jpg" width="1400" height="1058" alt="A historical Oil and Gas Journal map of the United States with oil trunk pipe lines drawn in red, converging on the Mid-Continent fields and running east to the refineries.">
+      <figcaption><i>Map of Oil Trunk Pipe Lines</i>, The Oil and Gas Journal. <a href="https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~5362000">David Rumsey Map Collection</a>, David Rumsey Map Center, Stanford Libraries. <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a>.</figcaption>
+    </figure>
   </div>
 </header>
 
@@ -188,18 +205,18 @@
     <div class="wrap intro">
       <div>
         <p class="eyebrow">What it is</p>
-        <h2>Nobody knows when most of these lines were built</h2>
-        <p>Gas and oil pipelines, electric transmission, water mains and roads: the record of when they were built, who owned them and when they went out of service is scattered across scanned maps in archives and a century of trade journals that reported every new line, in vocabulary nobody uses any more.</p>
-        <p>Lineage recovers that record as a network you can open in QGIS. Every fact about a line is a claim, and every claim carries a citation to the page that says so.</p>
+        <h2>Nobody knows when most of America's pipelines were built</h2>
+        <p>The same goes for its power lines, water mains and older roads. Today's datasets show where these networks run, but rarely when each line was built, who owned it, or when it was retired. That history survives in scanned maps in archives and in a century of trade journals that reported each new line as it was laid.</p>
+        <p>Lineage recovers it as map data that opens in QGIS, the free GIS application researchers already use. Every fact, from a construction date to an owner, carries a citation to the page that says so. The first users are energy researchers studying how US energy distribution grew.</p>
         <p>The name is a pun (line + age). It is also the GIS term for the record of a dataset's sources and processing, which is the whole idea.</p>
       </div>
       <div>
-        <p class="eyebrow">What it has to do</p>
+        <p class="eyebrow">What the data has to be</p>
         <ol class="reqs">
-          <li>Usable in QGIS and field-standard tools<span class="sub">no conversion, no plugins</span></li>
-          <li>Temporal, with imprecise dates<span class="sub">"sometime before 1930" is a real value</span></li>
-          <li>Citations, optionally with confidence<span class="sub">no citation, no machine-generated claim</span></li>
-          <li>Trackable evolution<span class="sub">who changed what, when, and on what evidence</span></li>
+          <li>Ready for standard GIS tools<span class="sub">opens in QGIS with no conversion and no plugins</span></li>
+          <li>Dated, even when the date is fuzzy<span class="sub">"sometime before 1930" is a real value</span></li>
+          <li>Cited, fact by fact<span class="sub">with a confidence level where one is known</span></li>
+          <li>Accountable for every change<span class="sub">who changed what, when, and on what evidence</span></li>
         </ol>
       </div>
     </div>
