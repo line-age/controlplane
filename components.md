@@ -213,7 +213,7 @@ Can be developed independently once the model exists. Releases are built, never 
 
 ## Not a component
 
-- **An orchestrator.** There is no master pipeline. Each pipeline reads records in one state
+- **An orchestrator.** There is no master data processing pipeline. Each pipeline reads records in one state
   from `store` and writes the next; a human review is just a state change. See L-0003.
 - **Deployment.** These repos are software. Each service ships something runnable;
   deployment configuration for any particular environment lives outside this org.
