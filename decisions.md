@@ -61,6 +61,23 @@ run it anywhere.
 
 *2026-10-07.* The project is **Lineage**. The GitHub org is **`line-age`**.
 
+### L-0008 - One GitHub project and one lead per repo
+
+*2026-10-19.* Each repo has a GitHub project in the `line-age` org and a team lead who owns
+both. Leads are named by GitHub handle. The table in the controlplane README is the source
+of truth; each repo's README names its own project and lead and links back to it. Handles of
+org members in an ownership role are the one exception to keeping people out of these
+public repos.
+
+Review routing is separate: each repo's `.github/CODEOWNERS` names its `team-<repo>` GitHub
+team, so membership changes happen in the org, not in files.
+
+### L-0009 - Infrastructure gets its own repo
+
+*2026-10-19.* Helm charts and fixture data go in a new `deploy` repo, not the controlplane,
+which holds no code. It stays inside L-0006: charts are generic and fixtures are synthetic
+or public. Environment values and the research partner's data live outside this org.
+
 ---
 
 ## Inherited from Legend (advisory)

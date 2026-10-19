@@ -15,5 +15,7 @@ This is the Lineage controlplane: planning documents, no code. Read `README.md` 
   sentence.
 - This repo is public. Never name specific people, partner institutions, clients, or
   specific maps or sheets. Say "the research partner", "a real sheet", "a spike sheet".
+  The one exception: GitHub handles in an ownership role, in the README's projects table
+  and in `.github/CODEOWNERS` (L-0008).
 - These repos are software, not deployment configuration. No hostnames, cluster names,
   internal repos or environment-specific settings.

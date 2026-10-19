@@ -28,8 +28,14 @@ is choosing these well.
 **Lane.** Which license, or which retrieval path, a piece of data came through. Recorded at
 ingest.
 
+**Lead (team lead).** The person who owns a repo and its project. Listed by GitHub handle
+in the controlplane README.
+
 **Map-date rule.** A line on a map published in year N proves existence by N, not
 construction in N (I-0003).
+
+**Project.** A GitHub project board in the `line-age` org; one per repo (L-0008). Not to be
+confused with Lineage itself, which is "the project" in prose.
 
 **Segment.** A stretch of line between two nodes: a pipeline, a transmission line, a road, a
 main.

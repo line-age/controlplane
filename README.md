@@ -65,6 +65,28 @@ flowchart LR
 | [`backport`](https://github.com/line-age/backport) | the group's existing spreadsheets into `store` | Fall 2026, side quest |
 | [`review`](https://github.com/line-age/review) | authenticated review of traces and citations | Winter 2027 |
 | [`release`](https://github.com/line-age/release) | `store` out to versioned GeoPackage and GeoJSON | Winter 2027 |
+| [`deploy`](https://github.com/line-age/deploy) | generic Helm charts and synthetic fixture data | Fall 2026 |
+
+## Projects and leads
+
+Each repo has its own GitHub project in the `line-age` org, where its work is planned and
+tracked, and a team lead who owns both. This table is the one place that says who; repo
+READMEs link here. See L-0008.
+
+| Repo | Project | Team lead |
+| --- | --- | --- |
+| `cite` | [Citations](https://github.com/orgs/line-age/projects/1) | [@bornakapusta](https://github.com/bornakapusta) |
+| `corpus` | [Corpus](https://github.com/orgs/line-age/projects/2) | [@FlorenceEgwu](https://github.com/FlorenceEgwu) |
+| `georef` | [Georef](https://github.com/orgs/line-age/projects/3) | [@nickmarden](https://github.com/nickmarden) |
+| `store` | [Store](https://github.com/orgs/line-age/projects/4) | [@nickmarden](https://github.com/nickmarden) |
+| `trace` | [Trace](https://github.com/orgs/line-age/projects/5) | [@tisljaricleo](https://github.com/tisljaricleo) |
+| `backport` | [Backport](https://github.com/orgs/line-age/projects/6) | [@gregariouspanda](https://github.com/gregariouspanda) |
+| `review` | [Review](https://github.com/orgs/line-age/projects/7) | [@ickynavigator](https://github.com/ickynavigator) |
+| `release` | [Release](https://github.com/orgs/line-age/projects/8) | [@ickynavigator](https://github.com/ickynavigator) |
+| `deploy` | [Infrastructure](https://github.com/orgs/line-age/projects/9) | [@sudosume](https://github.com/sudosume) |
+
+The controlplane itself has no project; changes to it go through pull requests, managed by
+[@nickmarden](https://github.com/nickmarden) and [@bornakapusta](https://github.com/bornakapusta).
 
 Detail per component, including inputs, outputs and open questions, is in
 [components.md](components.md). Timing is in [roadmap.md](roadmap.md).

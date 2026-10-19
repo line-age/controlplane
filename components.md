@@ -211,9 +211,28 @@ Can be developed independently once the model exists. Releases are built, never 
 
 ---
 
+## deploy
+
+What it takes to run Lineage somewhere, without saying where.
+
+**In:** the container images the other repos ship.
+**Out:** generic Helm charts, and synthetic fixture data for development and tests.
+**Depends on:** every service repo.
+
+Generic means no hostnames, cluster names, secrets or environment values; whoever runs
+Lineage supplies those from outside this org (L-0006). Fixture data is made up or drawn
+from public sources, never the research partner's sheets or scans. See L-0009.
+
+**Open:**
+
+- Whether fixtures for a single component live here or in that component's repo.
+
+---
+
 ## Not a component
 
 - **An orchestrator.** There is no master data processing pipeline. Each pipeline reads records in one state
   from `store` and writes the next; a human review is just a state change. See L-0003.
-- **Deployment.** These repos are software. Each service ships something runnable;
-  deployment configuration for any particular environment lives outside this org.
+- **Deployment configuration.** These repos are software. Each service ships something
+  runnable, and `deploy` packages it generically; configuration for any particular
+  environment lives outside this org.
