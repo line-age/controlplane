@@ -13,9 +13,9 @@ This is the Lineage controlplane: planning documents, no code. Read `README.md` 
 - Use the words in `glossary.md`.
 - No em-dashes or en-dashes as separators. Use a spaced hyphen, a semicolon or a new
   sentence.
-- This repo is public. Never name specific people, partner institutions, clients, or
-  specific maps or sheets. Say "the research partner", "a real sheet", "a spike sheet".
-  The one exception: GitHub handles in an ownership role, in the README's projects table
-  and in `.github/CODEOWNERS` (L-0008).
+- This repo is public, and so is participation in Lineage (L-0010). Name people and the
+  research partner where it helps; prefer GitHub handles for org members. Don't name
+  Tight Line's other clients, or specific maps or sheets: say "a real sheet", "a spike
+  sheet".
 - These repos are software, not deployment configuration. No hostnames, cluster names,
   internal repos or environment-specific settings.

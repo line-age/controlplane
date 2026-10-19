@@ -78,6 +78,13 @@ team, so membership changes happen in the org, not in files.
 which holds no code. It stays inside L-0006: charts are generic and fixtures are synthetic
 or public. Environment values and the research partner's data live outside this org.
 
+### L-0010 - Participation is public
+
+*2026-10-19.* Repos, membership and GitHub usernames are all public now, so these repos
+may name the people working on Lineage and the research partner. This reopens the earlier
+rule, which kept everyone anonymous while participation was not yet public, and replaces
+L-0008's narrow exception for leads' handles. Specific maps and sheets still go unnamed.
+
 ---
 
 ## Inherited from Legend (advisory)
