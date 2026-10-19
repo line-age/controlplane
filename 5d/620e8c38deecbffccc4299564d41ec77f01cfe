@@ -1,0 +1,21 @@
+CLAUDE.md
+  s_ec024a9d890d05::t_10fb4f549f36bf 16-19
+decisions.md
+  s_ec024a9d890d05::t_2a267c05b9efe7 81-87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "5d620e8c38deecbffccc4299564d41ec77f01cfe",
+  "prompts": {},
+  "sessions": {
+    "s_ec024a9d890d05": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77d56632-cbf1-42f8-80ea-f86039a93beb",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Nick Marden <nmarden@avvo.com>"
+    }
+  }
+}
