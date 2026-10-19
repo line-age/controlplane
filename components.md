@@ -111,14 +111,19 @@ Getting a scanned map onto the earth, and letting a person check and fix it.
 **Out:** a IIIF image and a georeference annotation with a stable, resolvable permalink.
 **Depends on:** nothing in this org.
 
-Three parts:
+Four parts:
 
 - A IIIF image server for the scans.
 - A self-hosted Allmaps editor, which is also the georeferencing review tool. A separate
   review app is not planned unless the editor turns out not to be good enough.
-- **Our own annotation server.** This is the real build. The Allmaps editor saves through a
-  ShareDB websocket to Allmaps' API, and that server is not in their public monorepo
-  (checked 2026-10-07), so self-hosting the editor means writing a compatible one.
+- **Our own annotation server.** This is the real build. The Allmaps editor saves to
+  Allmaps' API (a ShareDB websocket, REST and annotations). The runnable server is not in
+  their public monorepo, though its database schema and shared code are (checked
+  2026-10-13), so self-hosting the editor means writing a compatible server unless
+  Allmaps publishes theirs. We're asking first.
+- **Allmaps Tile Server, Preview and Viewer, self-hosted.** The Tile Server turns
+  annotations into warped XYZ tiles, which is how a georeferenced sheet opens in QGIS.
+  allmaps.org runs all three on Cloudflare; ours run in the same deployment as the rest.
 
 Before georeferencing anything, look up whether Allmaps already has an annotation for the
 image. On one spike sheet an existing CC0 annotation beat our own work by a factor of
