@@ -13,7 +13,7 @@ Each entry is short on purpose. Add the reasoning when a decision is reopened, n
 
 ### L-0001 - The data lives in a database, not in git
 
-*2026-10-07.* Git is unwieldy for a large corpus of individual segments and citations, and
+*2026-10-07.* Git is unwieldy for a large corpus of individual features and citations, and
 an API lets web tools and AI integrations work with the data without knowing the mechanics
 of git.
 
@@ -84,6 +84,15 @@ or public. Environment values and the research partner's data live outside this 
 may name the people working on Lineage and the research partner. This reopens the earlier
 rule, which kept everyone anonymous while participation was not yet public, and replaces
 L-0008's narrow exception for leads' handles. Specific maps and sheets still go unnamed.
+
+### L-0011 - Section, segment and edge
+
+*2026-10-19.* "Segment" follows the OGC Simple Features meaning: a straight piece between two
+vertices, which is what QGIS users and the research partner's sheets already mean by it.
+The research partner's **section** (built and put in use at one time) is the unit line
+attributes describe. The stretch between two nodes is an **edge**. Earlier, this repo used
+"segment" for the edge, which clashed with the GIS standard our output has to read
+naturally in.
 
 ---
 

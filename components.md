@@ -13,9 +13,9 @@ for now; see L-0002 for why, and for the rule that keeps a later split cheap.
 
 **The model** covers two things that reference each other:
 
-- **Network.** Segments, junctions and end nodes for at least: roads, electric grids, oil
+- **Network.** Edges, junctions and end nodes for at least: roads, electric grids, oil
   pipelines, natural gas pipelines, water pipelines. Directionality where it applies, on
-  segments and through junctions. Enough to describe an interconnected network including
+  edges and through junctions. Enough to describe an interconnected network including
   flow. Not enough for a driving app: no lanes, no signals.
 - **Evidence.** Sources, citations and claims. A citation supports a *claim* about a feature
   ("operated by Y from 1931 to 1948"), not the feature as a whole. The claim is the join
@@ -40,6 +40,9 @@ operator's concern, not this repo's.
   OpenHistoricalMap's date tagging.
 - The audit trail has to live in the database, not only in the API, because QGIS can write
   to PostGIS directly and would bypass an API-only audit.
+- Which unit claims attach to. A diameter or a build date is a fact about a section; flow
+  and connectivity are facts about edges. The two don't line up: a branch splits an edge but
+  not a section, and a later extension adds a section but maybe not an edge.
 
 ---
 
@@ -80,7 +83,7 @@ onward).
 Citation generation. The first thing anyone outside Tight Line will use: the research
 partner asked for it first, and it moved from winter to fall because of that.
 
-**In:** a pipeline segment and whatever is known about it (geometry, region, approximate
+**In:** a pipeline section and whatever is known about it (geometry, region, approximate
 date, perhaps an operator).
 **Out:** grounded citations to specific journal issues and pages, each supporting one claim
 about one attribute, with the quoted passage.
@@ -136,7 +139,7 @@ Finding the lines on a georeferenced map.
 
 **In:** a georeferenced map from `georef`, plus a statement of which symbols mean what
 ("dotted red is gas, ignore the rest").
-**Out:** candidate segments, as GeoJSON or GeoPackage, written to `store` as unreviewed.
+**Out:** candidate traces, as GeoJSON or GeoPackage, written to `store` as unreviewed.
 **Depends on:** `georef`, `store`.
 
 This is an open research problem. A DARPA competition put the published state of the art at
