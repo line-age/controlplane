@@ -45,6 +45,11 @@ second pipeline needs one.
 *2026-10-07.* Unless trying it shows otherwise. The build is our own annotation server,
 because Allmaps' server is not public.
 
+*Reopened 2026-10-22.* The earlier reasoning was wrong: Allmaps' API server (`apis/live`,
+`apis/rest`, `apis/annotations`) has been public since 2026-03-17, and was misread as
+absent. We run Allmaps' own APIs instead of writing a compatible server. The editor is
+still the review tool.
+
 ### L-0005 - Citations first
 
 *2026-10-07.* `cite` moved from winter to fall at the research partner's request. It ships before `store`,
@@ -93,6 +98,15 @@ The research partner's **section** (built and put in use at one time) is the uni
 attributes describe. The stretch between two nodes is an **edge**. Earlier, this repo used
 "segment" for the edge, which clashed with the GIS standard our output has to read
 naturally in.
+
+### L-0012 - GitHub login for georef, gated by team
+
+*2026-10-22.* Editing in the Allmaps editor and uploading to the IIIF image service need a
+GitHub login and membership in one of a configurable list of GitHub teams. This replaces
+the LDAP login in `georef`'s first issues. Lineage already organizes people by GitHub team
+(L-0008, L-0010), and Allmaps already supports GitHub login, so LDAP added a directory to
+run and an upstream change to ask for. Revisit if hosting moves somewhere with its own
+single sign-on.
 
 ---
 
