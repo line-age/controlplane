@@ -1,0 +1,25 @@
+README.md
+  s_6015974f6f542a::t_28c76ed9d8f9c7 63
+components.md
+  s_6015974f6f542a::t_6fe08bee6d6d3e 119-124
+decisions.md
+  s_6015974f6f542a::t_55c2e3751f49f4 48-52,102-110
+roadmap.md
+  s_6015974f6f542a::t_f62a220b1401ac 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "2b49a079f81da1a1d5762cf7debd6ca1f09ed46f",
+  "prompts": {},
+  "sessions": {
+    "s_6015974f6f542a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5017932e-ce32-41e8-ac61-94324228b21a",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Nick Marden <nmarden@avvo.com>"
+    }
+  }
+}
