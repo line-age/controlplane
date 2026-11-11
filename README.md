@@ -36,35 +36,47 @@ flowchart LR
     subgraph inputs[Inputs]
         SCAN([scanned maps])
         PRESS([trade press, 1859-1961])
-        SHEETS([the group's spreadsheets])
+        SHEETS([the group's traces<br/>and spreadsheets])
     end
 
     SCAN --> GEOREF[georef<br/>IIIF + Allmaps]
     GEOREF --> TRACE[trace<br/>vision candidates]
     PRESS --> CORPUS[corpus<br/>ingest + search]
-    CORPUS --> CITE[cite<br/>citation generation]
     SHEETS --> BACKPORT[backport]
 
     TRACE --> STORE[(store<br/>network + evidence<br/>model, DB, API)]
-    CITE --> STORE
     BACKPORT --> STORE
 
-    REVIEW[review<br/>traces + citations] <--> STORE
+    subgraph loop[the loop: until nothing is left to add]
+        REVIEW[review<br/>look, decide, ask for more]
+        CITE[cite<br/>citations on request]
+    end
+    STORE <--> REVIEW
+    STORE <--> CITE
+    CORPUS --> CITE
     GEOREF --> REVIEW
-    STORE --> RELEASE[release<br/>GeoPackage, GeoJSON]
+
+    STORE --> RELEASE[release<br/>a snapshot, any time]
     RELEASE --> QGIS([researchers in QGIS])
 ```
 
+Sections go into `store` as soon as they are traced or imported, carrying whatever the trace
+itself says. From then on `review` and `cite` work on what is stored, in a loop: a person
+asks for citations on some sections, `cite` answers with candidates, the person accepts or
+corrects them, and every accepted claim makes the next search better. A release can be
+cut at any point in that loop. See L-0013.
+
+
 | Repo | What it is | First needed |
 | --- | --- | --- |
-| [`store`](https://github.com/line-age/store) | the network + evidence model, PostGIS, the audited CRUD API | Fall 2026 |
+| [`store`](https://github.com/line-age/store) | the network + evidence model, PostGIS, the audited CRUD API | Now, first |
 | [`corpus`](https://github.com/line-age/corpus) | trade-press ingest and an authority-ranked RAG search over it | Fall 2026 |
 | [`cite`](https://github.com/line-age/cite) | sections in, grounded citations out | Fall 2026, first |
 | [`georef`](https://github.com/line-age/georef) | IIIF image serving, self-hosted Allmaps and its APIs | Fall 2026 |
 | [`trace`](https://github.com/line-age/trace) | georeferenced maps in, candidate traces out | Fall 2026, research |
-| [`backport`](https://github.com/line-age/backport) | the group's existing spreadsheets into `store` | Fall 2026, side quest |
-| [`review`](https://github.com/line-age/review) | authenticated review of traces and citations | Winter 2027 |
-| [`release`](https://github.com/line-age/release) | `store` out to versioned GeoPackage and GeoJSON | Winter 2027 |
+| [`backport`](https://github.com/line-age/backport) | the group's existing traces and spreadsheets into `store` | Now, with `store` |
+| [`review`](https://github.com/line-age/review) | the app the loop runs in: review, identity, citation requests, AI help | Winter 2027, started now |
+| [`release`](https://github.com/line-age/release) | `store` out to versioned GeoPackage and GeoJSON, from any state | First cut with `backport` |
 | [`deploy`](https://github.com/line-age/deploy) | generic Helm charts and synthetic fixture data | Fall 2026 |
 
 ## Projects and leads

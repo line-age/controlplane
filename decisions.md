@@ -108,6 +108,30 @@ the LDAP login in `georef`'s first issues. Lineage already organizes people by G
 run and an upstream change to ask for. Revisit if hosting moves somewhere with its own
 single sign-on.
 
+### L-0013 - The work is a loop around store, not a line
+
+*2026-11-11.* The plan assumed a line: georef, trace, sections, citations from `corpus`,
+`store`, review, release. Stitching the research partner's natural gas traces into one
+dataset showed the real shape. A trace already carries claims of its own (the sheet it
+came from, and sometimes a build year, diameter or owner), so sections go into `store` as
+soon as they are traced. From then on, review and citation generation run as a loop
+against what is stored: a person looks at sections, asks for citations, accepts or
+corrects what comes back, and each accepted claim makes the next search better (an owner's
+name is a new query). The loop stops when nothing more turns up, which may be never.
+
+What follows from this:
+
+- `store` and `backport` move up. Nothing iterates until something is stored.
+- `review` becomes the app the loop runs in, not a gate at the end. It triggers citation
+  requests, either by asking `cite` and its built-in AI help, or by a person typing one in.
+- `cite` gets an on-demand mode driven by requests in `store` (L-0003 still holds: the
+  request is a record state, not an orchestrator call). File mode stays until then.
+- `release` can build from any state of `store`, with whatever citations exist at that
+  moment. A release is a snapshot of where the loop is, not the end of it.
+
+This narrows L-0005: `cite` still came first, but its file-era output is a stopgap until
+`store` takes writes.
+
 ---
 
 ## Inherited from Legend (advisory)

@@ -25,7 +25,12 @@ Every feature needs, as claims that can each be cited: ownership over time, and 
 inception, permitting, construction, entry into operation, and exit from operation. Any of
 those may be unknown, and an unknown stays unknown (I-0003).
 
-**In:** writes from `cite`, `trace`, `backport` and `review`, through the API.
+`store` is the middle of the loop (L-0013). Every other component either fills it, works
+on what is in it, or builds from it, and all of them can run at once against the same
+data. That makes it the first thing to build, with `backport` as its first writer.
+
+**In:** writes from `cite`, `trace`, `backport` and `review`, through the API. Citation
+requests from `review`, held as records for `cite` to pick up.
 **Out:** reads for every other component; direct PostGIS access for QGIS users.
 **Depends on:** Postgres with PostGIS. Running, backing up and recovering it is the
 operator's concern, not this repo's.
@@ -92,6 +97,12 @@ about one attribute, with the quoted passage.
 The first version runs before `store` does, so its input and output are files (GeoJSON or
 a spreadsheet in, a citation table out). Its first reviewers are the researchers who asked for
 it, in whatever tools they already use. When `store` exists, those results go in through `backport`.
+
+Once `store` takes writes, `cite` runs on demand (L-0013). It picks up citation requests
+that `review` leaves in `store` for selected sections, reads every claim already accepted
+for them, and writes candidate claims and citations back. The more is known about a
+section, the better the queries get, so the same section can be asked about again and
+again as the loop goes on.
 
 The Legend `locate` spike and its 776 attested items from 145 issues are the starting point.
 
@@ -166,40 +177,64 @@ The research partner's existing traces and spreadsheets, into `store`.
 **Out:** structured records in `store`, with sources where the sheets have them.
 **Depends on:** `store`.
 
-A side quest, and a useful one: real data with real mess in it, exercising `store` and the
-model early and often. It also carries `cite`'s file-era output into the database.
+No longer a side quest (L-0013). `backport` is the first writer to `store` and supplies the
+data the `review` loop starts from. Real data with real mess in it, exercising `store` and
+the model early and often. It also carries `cite`'s file-era output into the database.
+
+The first input is the research partner's natural gas traces (sixteen sheet-to-sheet
+periods from 1929 to 1997, about 2,300 traced lines and 180 removals), already stitched into
+one GeoPackage with sheet dates and proposed removal matches. It carries no attributes
+beyond geometry and the sheet it came from, which is exactly the starting state the loop
+expects.
 
 **Open:**
 
-- Nobody on the Tight Line side has seen a sample yet. Get one early; it will push on the
-  model in ways design won't.
+- The research partner's spreadsheets are still unseen. The traces were the first sample;
+  get a spreadsheet early, because it will push on the model in ways traces don't.
 
 ---
 
 ## review
 
-The authenticated web application where people check machine output and store the
-verdicts.
+The authenticated web application where people work on what is in `store`, continuously.
+It is where the loop runs (L-0013): not a gate at the end, but the place a researcher goes
+to look at sections, find out more about them, and record what they found.
 
-**In:** a georeferenced map (from `georef`), candidate traces and machine citations (from
-`store`).
-**Out:** accepted, corrected or rejected traces and citations, written back to `store` with
-the reviewer's identity in the audit trail.
-**Depends on:** `store`, `georef`.
+**In:** sections, claims, citations and proposed links (from `store`); georeferenced sheets
+(from `georef`).
+**Out:** accepted, corrected or rejected claims and links, new claims and citations a
+person typed in, and citation requests, all written to `store` with the person's identity
+in the audit trail.
+**Depends on:** `store`, `georef`; `cite` through the requests it leaves in `store`.
 
-Two modes in one app, because they share authentication and the map shell:
+What a person does in it, in one map shell with one login:
 
-- **Trace review.** A georeferenced map with its candidate traces over it.
-- **Citation review.** Machine citations, approved or discarded.
+- **Look.** Stored sections over the sheet they came from, with a time slider, filtered by
+  what is known and what is missing ("no build date", "proposed removal").
+- **Review.** Accept, correct or reject a candidate trace, claim or citation.
+- **Decide identity.** Confirm or reject proposed links ("this removal ends that section",
+  "these two traces are one pipeline"). The system proposes; a person decides (I-0004).
+- **Ask for more.** Select sections and request citations. `cite` answers asynchronously,
+  and the answers arrive as candidates to review. Built-in AI help works the same way at
+  the scale of one conversation: "what else do we know about this line?" produces
+  candidate claims with citations, never accepted ones.
+- **Add what they know.** A person can type a claim and its citation (a journal page, a
+  filing, a sheet) directly. These are human claims and need no machine review.
 
-This is where the project's credibility is decided: no machine-generated claim reaches a
-release without passing through here.
+Every accepted claim is input to the next request, which is what makes it a loop. This is
+also still where the project's credibility is decided: no machine-generated claim is
+accepted without a person accepting it here.
 
 **Open:**
 
+- How much of the AI help runs inside `review` and how much is `cite` on demand. Probably
+  `cite` does the searching and `review` does the conversation.
+- What "nothing left to add" looks like for a section, so people can see where the loop is
+  done and where it isn't.
 - The September deck said trace review would happen in QGIS. The current plan is a web
-  app. Decide before winter.
-- Authentication for the research partner's users.
+  app; QGIS stays available for reading, and for editing straight against PostGIS.
+- Authentication for the research partner's users. GitHub login gated by team, as in
+  `georef` (L-0012), is the obvious first answer.
 
 ---
 
@@ -213,8 +248,16 @@ The dataset as researchers get it.
 
 Can be developed independently once the model exists. Releases are built, never hand-edited.
 
+A release can be built from any state of `store` (L-0013): it is a snapshot of where the
+loop is, with whatever citations exist at that moment. A first release can come as soon
+as `backport` has loaded the natural gas traces, and should reproduce the stitched
+GeoPackage that input came from.
+
 **Open:**
 
+- Whether a release carries candidate claims at all, and if so how they are marked. Leaving
+  them out is the safe default; a research build that includes them, flagged, may be what
+  the research partner wants.
 - The dataset license, which constrains what can be released (see open questions).
 - Open date bounds collapse on export; Legend decision 0011 worked out how.
 
