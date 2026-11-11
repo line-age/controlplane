@@ -14,6 +14,9 @@ Grouped by whose call it is.
 - **Identity calls.** How to decide when two observations are the same pipeline.
 - **Who pays for inference at scale**, once there is a costed estimate.
 - **Hosting after the research phase.** The research partner, or somewhere else.
+- **Whether a release carries candidate claims**, flagged, or only accepted ones (L-0013).
+- **What the natural gas `sub` files mean**, and which of two same-year sheets was traced.
+  The answers change how `backport` reads the first data into `store`.
 
 ## Ours, to settle by building
 
