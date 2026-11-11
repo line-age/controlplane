@@ -9,7 +9,7 @@ change: citation generation moved from winter to fall because it is what they ne
 - **`corpus`** ingest and search, because `cite` cannot run without it.
 - **`store`**: the network + evidence model, the database, the audited API. Model work done
   jointly with the research partner. Done when a QGIS round trip against the hosted database works.
-- **`georef`**: IIIF serving, self-hosted Allmaps, our annotation server. Needs time from the
+- **`georef`**: IIIF serving, self-hosted Allmaps and its APIs. Needs time from the
   research partner on the mapping stack.
 - **`backport`**: as soon as there is a sample spreadsheet, and against `store` as soon as
   `store` takes writes.

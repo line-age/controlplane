@@ -116,11 +116,12 @@ Four parts:
 - A IIIF image server for the scans.
 - A self-hosted Allmaps editor, which is also the georeferencing review tool. A separate
   review app is not planned unless the editor turns out not to be good enough.
-- **Our own annotation server.** This is the real build. The Allmaps editor saves to
-  Allmaps' API (a ShareDB websocket, REST and annotations). The runnable server is not in
-  their public monorepo, though its database schema and shared code are (checked
-  2026-10-13), so self-hosting the editor means writing a compatible server unless
-  Allmaps publishes theirs. We're asking first.
+- **The Allmaps APIs, self-hosted.** The editor saves to Allmaps' Live (a ShareDB
+  websocket), REST and Annotations APIs. All three are in Allmaps' public monorepo, so we
+  run theirs on Node against our Postgres. The real build is closing the gaps: editing
+  gated to GitHub teams (L-0012), every saved version recording who saved it, and Node
+  builds. Upstream first; see
+  [allmaps#672](https://github.com/allmaps/allmaps/discussions/672).
 - **Allmaps Tile Server, Preview and Viewer, self-hosted.** The Tile Server turns
   annotations into warped XYZ tiles, which is how a georeferenced sheet opens in QGIS.
   allmaps.org runs all three on Cloudflare; ours run in the same deployment as the rest.

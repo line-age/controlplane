@@ -60,7 +60,7 @@ flowchart LR
 | [`store`](https://github.com/line-age/store) | the network + evidence model, PostGIS, the audited CRUD API | Fall 2026 |
 | [`corpus`](https://github.com/line-age/corpus) | trade-press ingest and an authority-ranked RAG search over it | Fall 2026 |
 | [`cite`](https://github.com/line-age/cite) | sections in, grounded citations out | Fall 2026, first |
-| [`georef`](https://github.com/line-age/georef) | IIIF image serving, self-hosted Allmaps, our annotation server | Fall 2026 |
+| [`georef`](https://github.com/line-age/georef) | IIIF image serving, self-hosted Allmaps and its APIs | Fall 2026 |
 | [`trace`](https://github.com/line-age/trace) | georeferenced maps in, candidate traces out | Fall 2026, research |
 | [`backport`](https://github.com/line-age/backport) | the group's existing spreadsheets into `store` | Fall 2026, side quest |
 | [`review`](https://github.com/line-age/review) | authenticated review of traces and citations | Winter 2027 |
