@@ -226,33 +226,34 @@
     <div class="wrap">
       <p class="eyebrow">How it fits together</p>
       <h2>Eight components, one database in the middle</h2>
-      <div class="flow" aria-label="Sources feed producers, which write to store; review and release read from store">
+      <div class="flow" aria-label="Sources feed producers, which write to store; review and cite loop on what is in store; release builds from store at any point">
         <div class="col">
           <span class="label">Sources</span>
           <span class="chip src">Scanned maps</span>
+          <span class="chip src">Existing traces and spreadsheets</span>
           <span class="chip src">Trade press, 1859-1961</span>
-          <span class="chip src">Existing spreadsheets</span>
         </div>
         <span class="arrow" aria-hidden="true">→</span>
         <div class="col">
           <span class="label">Producers</span>
           <span class="chip">georef → trace</span>
-          <span class="chip hot">corpus → cite</span>
           <span class="chip">backport</span>
+          <span class="chip">corpus<br><small>feeds cite</small></span>
         </div>
         <span class="arrow" aria-hidden="true">→</span>
         <div class="col">
           <span class="label">Holds it</span>
           <span class="chip core">store<small>network + evidence</small></span>
         </div>
-        <span class="arrow" aria-hidden="true">→</span>
+        <span class="arrow" aria-hidden="true">⇄</span>
         <div class="col">
-          <span class="label">Consumers</span>
-          <span class="chip">review<br><small>people check it</small></span>
-          <span class="chip">release<br><small>QGIS gets it</small></span>
+          <span class="label">The loop</span>
+          <span class="chip hot">review<br><small>look, decide, ask for more</small></span>
+          <span class="chip hot">cite<br><small>citations on request</small></span>
+          <span class="chip">release<br><small>a snapshot, any time</small></span>
         </div>
       </div>
-      <p class="flow-note">There is no master data processing pipeline. Each component reads records in one state and writes the next, and a human review is just a state change. Citation generation is the first priority; everything else can start in parallel.</p>
+      <p class="flow-note">It is a loop, not a line. A traced line goes into store as soon as it is traced, carrying whatever the trace itself says. From then on people work on what is stored: they ask for citations on some lines, cite answers with candidates, they accept or correct them, and every accepted fact makes the next search better. A release can be cut at any point in that loop, with the citations that exist at that moment. There is still no master data processing pipeline; a request for citations is just a record in store.</p>
     </div>
   </section>
 
@@ -262,44 +263,44 @@
       <h2>One repository each</h2>
       <div class="grid">
         <article class="comp priority">
-          <header><h3><a href="https://github.com/line-age/cite">cite</a></h3><span class="tag now">Priority · now</span></header>
-          <p>Finds the page that proves it. Retrieval and assertion happen per attribute, and every citation resolves at the moment the claim is made.</p>
-          <dl class="io"><dt>In</dt><dd>A section of line and whatever is known about it</dd><dt>Out</dt><dd>Citations to specific issues and pages, one per claim</dd></dl>
+          <header><h3><a href="https://github.com/line-age/store">store</a></h3><span class="tag now">Priority · now</span></header>
+          <p>The network and evidence model, PostGIS, and an audited CRUD API. The middle of the loop, so it comes first: nothing iterates until something is stored.</p>
+          <dl class="io"><dt>In</dt><dd>Writes from every producer and from review, and requests for citations</dd><dt>Out</dt><dd>An API, and PostGIS that QGIS opens directly</dd></dl>
         </article>
         <article class="comp priority">
-          <header><h3><a href="https://github.com/line-age/corpus">corpus</a></h3><span class="tag now">Feeds cite · now</span></header>
+          <header><h3><a href="https://github.com/line-age/backport">backport</a></h3><span class="tag now">With store · now</span></header>
+          <p>Existing hand-made traces and spreadsheets, brought into the model, mess and all. The first data in store, starting with about 2,300 traced natural gas lines from 1929 to 1997.</p>
+          <dl class="io"><dt>In</dt><dd>Traces and spreadsheets</dd><dt>Out</dt><dd>Structured records in store</dd></dl>
+        </article>
+        <article class="comp">
+          <header><h3><a href="https://github.com/line-age/cite">cite</a></h3><span class="tag start">Now</span></header>
+          <p>Finds the page that proves it. Retrieval and assertion happen per attribute, and every citation resolves at the moment the claim is made.</p>
+          <dl class="io"><dt>In</dt><dd>A section of line and everything already known about it, on request</dd><dt>Out</dt><dd>Citations to specific issues and pages, one per claim</dd></dl>
+        </article>
+        <article class="comp">
+          <header><h3><a href="https://github.com/line-age/corpus">corpus</a></h3><span class="tag start">Feeds cite · now</span></header>
           <p>Trade-press ingest from Internet Archive and an authority-ranked search over it, with era-keyed vocabulary: "gas works" in 1887, "pipe line" in 1937.</p>
           <dl class="io"><dt>In</dt><dd>Digitized journal runs</dd><dt>Out</dt><dd>Ranked passages with identifiers that resolve</dd></dl>
         </article>
         <article class="comp">
-          <header><h3><a href="https://github.com/line-age/store">store</a></h3><span class="tag start">Now</span></header>
-          <p>The network and evidence model, PostGIS, and an audited CRUD API. One model for roads, power, oil, gas and water: lines, junctions, direction and flow.</p>
-          <dl class="io"><dt>In</dt><dd>Writes from every producer and from review</dd><dt>Out</dt><dd>An API, and PostGIS that QGIS opens directly</dd></dl>
+          <header><h3><a href="https://github.com/line-age/review">review</a></h3><span class="tag start">Started now</span></header>
+          <p>The app the loop runs in. People look at stored lines over the sheet they came from, accept or correct what the machine proposed, decide which lines are the same one, and ask for more: from cite, from built-in AI help, or by typing in what they know. No machine-generated claim is accepted without a person accepting it here.</p>
+          <dl class="io"><dt>In</dt><dd>Lines, claims, citations and proposed links</dd><dt>Out</dt><dd>Verdicts, new facts and requests for citations, with the person in the audit trail</dd></dl>
+        </article>
+        <article class="comp">
+          <header><h3><a href="https://github.com/line-age/release">release</a></h3><span class="tag start">First cut soon</span></header>
+          <p>Versioned, citable builds of the dataset that play as a timeline in QGIS straight out of the box. Cut from wherever the loop is, with the citations that exist then.</p>
+          <dl class="io"><dt>In</dt><dd>store</dd><dt>Out</dt><dd>GeoPackage and GeoJSON</dd></dl>
         </article>
         <article class="comp">
           <header><h3><a href="https://github.com/line-age/georef">georef</a></h3><span class="tag start">Now</span></header>
-          <p>IIIF image serving, a self-hosted Allmaps editor, and the annotation server it needs. The editor doubles as the georeferencing review tool.</p>
+          <p>IIIF image serving, and a self-hosted Allmaps editor running Allmaps' own APIs. The editor doubles as the georeferencing review tool.</p>
           <dl class="io"><dt>In</dt><dd>Scanned map images</dd><dt>Out</dt><dd>A georeference annotation with a permalink</dd></dl>
         </article>
         <article class="comp">
           <header><h3><a href="https://github.com/line-age/trace">trace</a></h3><span class="tag start">Research · now</span></header>
           <p>Finding the lines on a georeferenced map, and not the county boundaries and railroads that look just like them. Conservative by design.</p>
           <dl class="io"><dt>In</dt><dd>A georeferenced map and its symbology</dd><dt>Out</dt><dd>Candidate traces, unreviewed</dd></dl>
-        </article>
-        <article class="comp">
-          <header><h3><a href="https://github.com/line-age/backport">backport</a></h3><span class="tag start">Now</span></header>
-          <p>Existing hand-made spreadsheets and traces, brought into the model, mess and all. The earliest real test of the data model.</p>
-          <dl class="io"><dt>In</dt><dd>Spreadsheets and traces</dd><dt>Out</dt><dd>Structured records in store</dd></dl>
-        </article>
-        <article class="comp">
-          <header><h3><a href="https://github.com/line-age/review">review</a></h3><span class="tag later">Winter</span></header>
-          <p>An authenticated app where people accept, correct or reject machine output. No machine-generated claim reaches a release without passing through it.</p>
-          <dl class="io"><dt>In</dt><dd>Candidate traces and machine citations</dd><dt>Out</dt><dd>Verdicts, with the reviewer in the audit trail</dd></dl>
-        </article>
-        <article class="comp">
-          <header><h3><a href="https://github.com/line-age/release">release</a></h3><span class="tag later">Winter</span></header>
-          <p>Versioned, citable builds of the dataset that play as a timeline in QGIS straight out of the box.</p>
-          <dl class="io"><dt>In</dt><dd>store</dd><dt>Out</dt><dd>GeoPackage and GeoJSON</dd></dl>
         </article>
       </div>
     </div>
@@ -321,8 +322,8 @@
         <p class="eyebrow">Roadmap</p>
         <h2>Three quarters</h2>
         <div class="quarters">
-          <div class="q"><h3>Fall 2026</h3><p>Citations first, file in and file out. The corpus, the data model and API, georeferencing infrastructure, backporting and first vision experiments, all in parallel.</p></div>
-          <div class="q"><h3>Winter 2027</h3><p>Review for traces and citations, the full backport, and the first release that opens in QGIS.</p></div>
+          <div class="q"><h3>Now, to the end of 2026</h3><p>Get something stored. The data model, database and API, with the existing natural gas traces as the first data, and a first release that proves the round trip into QGIS. Citations keep going file in and file out until store takes writes; corpus, georeferencing and first vision experiments continue in parallel.</p></div>
+          <div class="q"><h3>Winter 2027</h3><p>Run the loop: review, identity calls and citations on request, with built-in AI help. The rest of the backport, and regular releases while the loop runs.</p></div>
           <div class="q"><h3>Spring 2027</h3><p>More network types, a go or no-go on automated tracing, and open-source cleanup.</p></div>
         </div>
       </div>
