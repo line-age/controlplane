@@ -1,0 +1,32 @@
+decisions.md
+  s_111c4f7ff198f4::t_53ac8c56ca0d30 111-134
+components.md
+  s_111c4f7ff198f4::t_0e1695acee41d1 101-106
+  s_111c4f7ff198f4::t_9d2f7b66e5ab02 28-33
+  s_111c4f7ff198f4::t_e8a2c9ec9a8737 199-226,230-233
+  s_111c4f7ff198f4::t_31ed045dd4923f 235-236
+  s_111c4f7ff198f4::t_a61b194558f4f4 251-255,258-260
+  s_111c4f7ff198f4::t_52bc5b63d987b4 180-188,192-193
+README.md
+  s_111c4f7ff198f4::t_5e086273a7652e 39,50-56,58-59,63-69,72,77-79
+open-questions.md
+  s_111c4f7ff198f4::t_fd617502df736e 17-19
+roadmap.md
+  s_111c4f7ff198f4::t_7923e5421f6b16 3-16,18-20,25,27-32,47-49
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "78af9719c43491dee61a6872f9091ee8fec6701b",
+  "prompts": {},
+  "sessions": {
+    "s_111c4f7ff198f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eb1e86d2-0b65-4658-8723-7a1f0ae8a2dd",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Nick Marden <nmarden@avvo.com>"
+    }
+  }
+}
