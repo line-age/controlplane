@@ -132,6 +132,16 @@ What follows from this:
 This narrows L-0005: `cite` still came first, but its file-era output is a stopgap until
 `store` takes writes.
 
+### L-0014 - Fixed local ports, one block per repo
+
+*2026-11-12.* Everything runs in containers, and on a developer's machine every repo's
+Compose binds host ports. Left to defaults they collide: with each other (two Postgres on
+5432) and with whatever else is running (store's API could not use 8000 on the first
+machine it ran on). Each repo gets a block of ten host ports in 47100-47199, listed in
+[ports.md](ports.md), with the database at the block's `9`. Only the host side is fixed;
+inside Compose, services keep their usual ports, and each port can be overridden by an
+environment variable. These are development defaults, not deployment settings (L-0006).
+
 ---
 
 ## Inherited from Legend (advisory)
