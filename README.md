@@ -110,3 +110,4 @@ Detail per component, including inputs, outputs and open questions, is in
 - [decisions.md](decisions.md) - what we have decided for Lineage, and what we inherited from Legend
 - [open-questions.md](open-questions.md) - what is not decided, and whose call it is
 - [glossary.md](glossary.md) - the words, so every repo uses them the same way
+- [ports.md](ports.md) - the host ports each repo binds locally, so everything can run at once
