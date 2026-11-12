@@ -122,10 +122,11 @@ name is a new query). The loop stops when nothing more turns up, which may be ne
 What follows from this:
 
 - `store` and `backport` move up. Nothing iterates until something is stored.
-- `review` becomes the app the loop runs in, not a gate at the end. It triggers citation
-  requests, either by asking `cite` and its built-in AI help, or by a person typing one in.
-- `cite` gets an on-demand mode driven by requests in `store` (L-0003 still holds: the
-  request is a record state, not an orchestrator call). File mode stays until then.
+- `review` becomes the app the loop runs in, not a gate at the end. New claims come from
+  asking `cite` ("Ask AI") or from a person reading a fact off a source and typing it in.
+- `cite` works from citation requests recorded in `store`: processed at once when a person
+  asks, or in bulk in the background. Both write candidates straight to `store`, so the
+  two look the same afterwards. File mode stays until then.
 - `release` can build from any state of `store`, with whatever citations exist at that
   moment. A release is a snapshot of where the loop is, not the end of it.
 

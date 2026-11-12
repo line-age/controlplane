@@ -26,8 +26,8 @@ a loop around `store`, not a line ending in it (L-0013).
 
 - **`review`**: the write half. Accept, correct, reject; confirm or reject proposed links;
   type in a claim and its citation; ask for citations on selected sections.
-- **`cite`**: on demand, from requests in `store`, reading what is already accepted. Built-in
-  AI help in `review` on top of it.
+- **`cite`**: citation requests, answered at once from "Ask AI" in `review` or in bulk in
+  the background, reading what is already accepted.
 - **`backport`**: the research partner's spreadsheets, and the rest of their traces.
 - **`release`**: regular snapshots while the loop runs, each one citable.
 - **`georef`**: decide whether the Allmaps editor is good enough as the review tool.

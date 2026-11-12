@@ -30,7 +30,7 @@ on what is in it, or builds from it, and all of them can run at once against the
 data. That makes it the first thing to build, with `backport` as its first writer.
 
 **In:** writes from `cite`, `trace`, `backport` and `review`, through the API. Citation
-requests from `review`, held as records for `cite` to pick up.
+requests, from a person in `review` or from a bulk job.
 **Out:** reads for every other component; direct PostGIS access for QGIS users.
 **Depends on:** Postgres with PostGIS. Running, backing up and recovering it is the
 operator's concern, not this repo's.
@@ -98,9 +98,13 @@ The first version runs before `store` does, so its input and output are files (G
 a spreadsheet in, a citation table out). Its first reviewers are the researchers who asked for
 it, in whatever tools they already use. When `store` exists, those results go in through `backport`.
 
-Once `store` takes writes, `cite` runs on demand (L-0013). It picks up citation requests
-that `review` leaves in `store` for selected sections, reads every claim already accepted
-for them, and writes candidate claims and citations back. The more is known about a
+Once `store` takes writes, `cite` works from citation requests recorded in `store`
+(L-0013). A request comes one of two ways: a person clicks "Ask AI" on a section in
+`review`, and `cite` processes that request at once while they wait; or a bulk job files
+requests for many sections ("every gas section with no owner") and `cite` works through
+them in the background. Either way it reads every claim already accepted for the section,
+and writes candidate claims and citations to `store` as it finds them, so a section looks
+the same afterwards whichever way it was asked about. The more is known about a
 section, the better the queries get, so the same section can be asked about again and
 again as the loop goes on.
 
@@ -214,10 +218,9 @@ What a person does in it, in one map shell with one login:
 - **Review.** Accept, correct or reject a candidate trace, claim or citation.
 - **Decide identity.** Confirm or reject proposed links ("this removal ends that section",
   "these two traces are one pipeline"). The system proposes; a person decides (I-0004).
-- **Ask for more.** Select sections and request citations. `cite` answers asynchronously,
-  and the answers arrive as candidates to review. Built-in AI help works the same way at
-  the scale of one conversation: "what else do we know about this line?" produces
-  candidate claims with citations, never accepted ones.
+- **Ask AI.** On any section, ask `cite` for what we don't know yet, given everything we
+  do. It answers while the person waits, with candidate claims and citations, never
+  accepted ones. The same candidates also arrive from background bulk runs.
 - **Add what they know.** A person can type a claim and its citation (a journal page, a
   filing, a sheet) directly. These are human claims and need no machine review.
 
