@@ -31,6 +31,7 @@ variable, defaulting to this table, so one machine can still move one.
 | `review` | 47160 | 47160 | web app |
 | `release` | 47170 | 47170 | reserved |
 | `backport` | 47180 | 47180 | reserved (imports are jobs and bind nothing) |
+| `studio` | 47190 | 47190 | Agent service (answers the chat) |
 
 A new repo takes the next free block. A new service takes the next free number in its
 repo's block, and gets a row here in the same PR that adds it to Compose.

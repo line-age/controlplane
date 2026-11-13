@@ -228,10 +228,29 @@ Every accepted claim is input to the next request, which is what makes it a loop
 also still where the project's credibility is decided: no machine-generated claim is
 accepted without a person accepting it here.
 
+### The Agent service
+
+The app is built in the `studio` repo, and its chat is answered by a service of its own
+there: the Agent.
+
+**In:** a question in words, the things the person attached to it (a section, claim,
+source, proposal, pipeline or a set of sections, by `store` id), and what `store` holds.
+**Out:** an answer in which every statement names the claim, citation or link it rests on,
+"Store does not say" where `store` has nothing, and for a question over many sections a
+count with the rule that produced it and the set of sections it selects. It writes nothing
+to `store`.
+**Depends on:** `store`, read only, with a pipeline token of its own.
+
+It says only what it read from `store`, the sources `store` holds and the app's own help
+text. Nothing comes from the model's memory, and code checks every answer against what was
+read before it is shown. A conclusion `store` does not state is allowed only when marked
+as the Agent's reading, with the claims it rests on.
+
 **Open:**
 
 - How much of the AI help runs inside `review` and how much is `cite` on demand. Probably
-  `cite` does the searching and `review` does the conversation.
+  `cite` does the searching and `review` does the conversation. The Agent service above
+  is the conversation; it does not search or propose yet.
 - What "nothing left to add" looks like for a section, so people can see where the loop is
   done and where it isn't.
 - The September deck said trace review would happen in QGIS. The current plan is a web
