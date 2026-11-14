@@ -246,13 +246,16 @@ text. Nothing comes from the model's memory, and code checks every answer agains
 read before it is shown. A conclusion `store` does not state is allowed only when marked
 as the Agent's reading, with the claims it rests on.
 
-Planned: **section context**. A traced section's own claims are often only its route and
-a status. The Agent will gather one pack per section from `store` (its claims, the
-sections drawn touching it, the map editions that show it, its links and pipeline), and
-later from public-domain boundaries (the state and county it lies in today). From these
-code draws leads by fixed rules, marked "Not in store", that say what is worth looking for. The
-same pack becomes `cite`'s brief for the section once `cite` is attached, and the leads its
-hints. A section drawn touching another is a clue, not a fact.
+**Section context.** A traced section's own claims are often only its route and a status.
+For each attached section (up to three in full) the Agent works out from `store`: the map
+editions that first show it and what store holds about its end, its links and its
+pipeline, and the sections drawn touching it (a line end within 50 m of another section).
+From these code draws leads by fixed rules, saying what is worth looking for and where;
+a lead is never a claim and is never written to `store`. Everything worked out and every
+lead is written by code, marked as such, and checked like the rest of the answer. A
+section drawn touching another is a clue, not a fact. The same pack becomes `cite`'s
+brief for the section once `cite` is attached, and the leads its hints. Place (the state
+and county a section lies in today) is left out for now: `store` holds none.
 
 ```mermaid
 flowchart LR
@@ -261,14 +264,14 @@ flowchart LR
         S["sections around it"]
         L["linked features<br/>pipeline, merged traces, removals"]
     end
-    P["later: public-domain boundaries<br/>states, counties, towns"]
+    P["later: place<br/>public-domain boundaries, or read off the scans"]
 
     F --> pack
     S -->|geometry: drawn touching| pack
     L --> pack
-    P -.->|place, length| pack
+    P -.->|place| pack
 
-    pack["<b>Section pack</b><br/>claims · connections · editions<br/>links · place · leads"]
+    pack["<b>Section pack</b><br/>claims · editions · links<br/>drawn touching · leads"]
 
     pack -->|now| chat["Agent answer<br/>checked by code"]
     pack -.->|soon| cite["cite<br/>brief + leads as hints"]
