@@ -248,9 +248,9 @@ as the Agent's reading, with the claims it rests on.
 
 Planned: **section context**. A traced section's own claims are often only its route and
 a status. The Agent will gather one pack per section from `store` (its claims, the
-sections drawn touching it, the map editions that show it, its links and pipeline) and
-from public-domain boundaries (the state and county it lies in today, its length). From
-these it may draw leads, marked "Not in store", that say what is worth looking for. The
+sections drawn touching it, the map editions that show it, its links and pipeline), and
+later from public-domain boundaries (the state and county it lies in today). From these
+code draws leads by fixed rules, marked "Not in store", that say what is worth looking for. The
 same pack becomes `cite`'s brief for the section once `cite` is attached, and the leads its
 hints. A section drawn touching another is a clue, not a fact.
 
@@ -261,12 +261,12 @@ flowchart LR
         S["sections around it"]
         L["linked features<br/>pipeline, merged traces, removals"]
     end
-    P["public-domain boundaries<br/>states, counties, towns"]
+    P["later: public-domain boundaries<br/>states, counties, towns"]
 
     F --> pack
     S -->|geometry: drawn touching| pack
     L --> pack
-    P -->|place, length| pack
+    P -.->|place, length| pack
 
     pack["<b>Section pack</b><br/>claims · connections · editions<br/>links · place · leads"]
 
