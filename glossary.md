@@ -23,6 +23,10 @@ is choosing these well.
 **Edge.** The stretch of a network between two nodes (junctions or end nodes): the graph
 and topology term. INSPIRE's network model calls it a link. Mostly internal to `store`.
 
+**Edition.** One year's printing of a source map. A section is first seen on the earliest
+edition that shows it. `store` holds an edition as the map-sheet sources of that year, not
+as a table of its own.
+
 **Era-keyed vocabulary.** Search terms that depend on the period: `gas works` in 1887,
 `pipe line` in 1937.
 
