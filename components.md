@@ -237,9 +237,21 @@ there: the Agent.
 source, proposal, pipeline or a set of sections, by `store` id), and what `store` holds.
 **Out:** an answer in which every statement names the claim, citation or link it rests on,
 "Store does not say" where `store` has nothing, and for a question over many sections a
-count with the rule that produced it and the set of sections it selects. It writes nothing
-to `store`.
-**Depends on:** `store`, read only, with a pipeline token of its own.
+count with the rule that produced it and the set of sections it selects. Asked to find
+something in the sources, it has `cite` search for one attribute of one section and shows
+what `cite` found, not yet in `store`. It writes to `store` only when the person presses
+Propose on a finding: one candidate claim with its citation, under `cite`'s pipeline
+identity, for a person to accept or reject (L-0015).
+**Depends on:** `store`, read with a pipeline token of its own; `cite`, over its API.
+
+**Searching with `cite`.** One section per search, owner, diameter or when it was built.
+The person steers it in the chat: the towns it runs through (`cite` searches by place
+names), the years to read, a value to rule out, another attribute. Code checks every
+request: a place, year or ruled-out value must come from the person's words, `store` or
+an earlier finding, never the model. `cite` reads at most two years of a journal per
+search. Each finding comes back with the page's own words, a link to the page and the
+passage marked on it, and why it may be in doubt; "searched, not found" says which
+journal, which issues and how many. Code writes every sentence about it.
 
 It says only what it read from `store`, the sources `store` holds and the app's own help
 text. Nothing comes from the model's memory, and code checks every answer against what was
@@ -274,9 +286,9 @@ flowchart LR
     pack["<b>Section pack</b><br/>claims · editions · links<br/>drawn touching · leads"]
 
     pack -->|now| chat["Agent answer<br/>checked by code"]
-    pack -.->|soon| cite["cite<br/>brief + leads as hints"]
-    chat -.->|prepared, not sent| req["citation request<br/>+ leads"]
-    req -.-> cite
+    chat -->|a search the person asked for| cite["cite<br/>one section, towns, years"]
+    cite -->|findings, not in store| chat
+    chat -->|Propose, by the person| cand["candidate claim<br/>in store"]
 ```
 
 How the Agent is built, with its full graph: the `studio` repo, `agent/README.md`.
@@ -285,7 +297,8 @@ How the Agent is built, with its full graph: the `studio` repo, `agent/README.md
 
 - How much of the AI help runs inside `review` and how much is `cite` on demand. Probably
   `cite` does the searching and `review` does the conversation. The Agent service above
-  is the conversation; it does not search or propose yet.
+  is the conversation; it has `cite` search on request and proposes only on the
+  person's Propose.
 - What "nothing left to add" looks like for a section, so people can see where the loop is
   done and where it isn't.
 - The September deck said trace review would happen in QGIS. The current plan is a web

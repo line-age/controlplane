@@ -143,6 +143,15 @@ machine it ran on). Each repo gets a block of ten host ports in 47100-47199, lis
 inside Compose, services keep their usual ports, and each port can be overridden by an
 environment variable. These are development defaults, not deployment settings (L-0006).
 
+### L-0015 - The chat proposes only on the person's button
+
+*2026-11-14.* The Studio Agent may have `cite` search the journals for a section and
+show what it found, but nothing it finds reaches `store` until the person presses
+Propose on that finding. Then it is written as a candidate claim with its citation, under
+`cite`'s pipeline identity, and a person still accepts or rejects it. Words in the chat
+never write, and the model has no way to trigger a write. A search is one section and
+one call; steering it is a new call with changed input, not a conversation inside `cite`.
+
 ---
 
 ## Inherited from Legend (advisory)
